@@ -29,28 +29,28 @@ public class Pessoa {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "nome")
+    @Column(name = "nome", nullable = false)
     private String nome;
 
-    @Column(name = "telefone")
+    @Column(name = "telefone", nullable = false)
     private String telefone;
 
-    @Column(name = "idade")
+    @Column(name = "idade", nullable = false)
     private Integer idade;
 
-    @Column(name = "cidade")
+    @Column(name = "cidade", nullable = false)
     private String cidade;
 
-    @Column(name = "estado")
+    @Column(name = "estado", nullable = false)
     private String estado;
 
-    @Column(name = "score")
+    @Column(name = "score", nullable = false)
     private Integer score;
 
-    @Column(name = "regiao")
+    @Column(name = "regiao", nullable = false)
     private String regiao;
 
-    @Column( name = "dataInclusao")
+    @Column( name = "dataInclusao", nullable = false)
     @CreationTimestamp
     private LocalDateTime dataInclusao;
 }

@@ -1,9 +1,12 @@
 package br.com.serasa.restapi.api.controller;
 
+import br.com.serasa.restapi.api.dto.AfinidadeRequest;
 import br.com.serasa.restapi.api.dto.PessoaRequest;
+import br.com.serasa.restapi.api.mapper.AfinidadeMapper;
 import br.com.serasa.restapi.api.mapper.PessoaMapper;
+import br.com.serasa.restapi.persistence.entity.Afinidade;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
-import br.com.serasa.restapi.persistence.repository.PessoaRepository;
+import br.com.serasa.restapi.service.AfinidadeService;
 import br.com.serasa.restapi.service.PessoaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,24 +21,24 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/pessoa")
+@RequestMapping("/afinidade")
 @RequiredArgsConstructor
 @Slf4j
 @Validated
-public class PessoaController {
+public class AfinidadeController {
 
-    private final PessoaService pessoaService;
+    private final AfinidadeService afinidadeService;
 
     @PostMapping
-    public ResponseEntity salvar(@RequestBody @Valid PessoaRequest request){
+    public ResponseEntity salvar(@RequestBody @Valid AfinidadeRequest request){
 
-        log.info("Iniciando cadastro de nova pessoa no sistema com request: {}", request);
+        log.info("Iniciando cadastro de afinidade no sistema com request: {}", request);
 
-        Pessoa pessoaDb = pessoaService.salvar(PessoaMapper.toPersistenceModel(request));
+        Afinidade afinidadeDb = afinidadeService.salvar(AfinidadeMapper.toPersistenceModel(request));
 
-        log.info("Pessoa cadastrada com sucesso no sistema: {}", pessoaDb);
+        log.info("Afinidade cadastrada com sucesso no sistema: {}", afinidadeDb);
 
-        return new ResponseEntity(pessoaDb, HttpStatus.CREATED);
+        return new ResponseEntity(afinidadeDb, HttpStatus.CREATED);
 
     }
 }

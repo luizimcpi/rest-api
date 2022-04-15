@@ -1,7 +1,6 @@
 package br.com.serasa.restapi.api.controller;
 
-import lombok.Getter;
-import lombok.Setter;
+import br.com.serasa.restapi.api.dto.ValidacaoCamposErroResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -17,7 +16,7 @@ import java.util.List;
 public class GlobalExceptionController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorMessageResponse> handleRegraNegocioException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ValidacaoCamposErroResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         var fieldErrors = e.getBindingResult().getFieldErrors();
         var globalErrors = e.getBindingResult().getGlobalErrors();
 
@@ -30,22 +29,13 @@ public class GlobalExceptionController {
             validationErrors.add("Objeto: '" + error.getObjectName() + "' Mensagem: "+ error.getDefaultMessage());
         }
 
-        ErrorMessageResponse errorMessage = new ErrorMessageResponse();
-        errorMessage.setCode(HttpStatus.BAD_REQUEST.value());
-        errorMessage.setStatus(HttpStatus.BAD_REQUEST.name());
-        errorMessage.setErros(validationErrors);
+        ValidacaoCamposErroResponse response = new ValidacaoCamposErroResponse();
+        response.setCodigo(HttpStatus.BAD_REQUEST.value());
+        response.setStatus(HttpStatus.BAD_REQUEST.name());
+        response.setErros(validationErrors);
 
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
 
     }
 }
 
-@Getter
-@Setter
-class ErrorMessageResponse {
-
-    private Integer code;
-    private String status;
-    private List<String> erros;
-
-}

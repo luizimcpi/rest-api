@@ -3,7 +3,7 @@ package br.com.serasa.restapi.api.mapper;
 import br.com.serasa.restapi.api.dto.PessoaRequest;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
 
-public class PessoaMapper {
+public final class PessoaMapper {
 
     public static Pessoa toPersistenceModel(PessoaRequest request) {
         return Pessoa.builder()

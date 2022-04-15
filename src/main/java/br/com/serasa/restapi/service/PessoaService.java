@@ -17,7 +17,7 @@ public class PessoaService {
 
     @Transactional
     public Pessoa salvar(Pessoa pessoa) {
-        log.debug("Cadastrando pessoa no sistema com modelo: {}", pessoa);
+        log.info("Cadastrando pessoa no sistema com modelo: {}", pessoa);
         return pessoaRepository.save(pessoa);
     }
 

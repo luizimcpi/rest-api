@@ -5,7 +5,7 @@ import br.com.serasa.restapi.persistence.entity.Pessoa;
 
 import java.time.LocalDateTime;
 
-public class PessoaTestUtils {
+public final class PessoaTestUtils {
 
     public static final Pessoa PESSOA_VALIDA = Pessoa.builder()
             .id(1L)
