@@ -24,3 +24,8 @@ docker run -p 8080:8080 luizimcpi/rest-api
 Execute RestApiApplication.java class 
 *You need jdk adoptopenjdk/openjdk11 installed and configured in your pc
 ```
+
+## H2 Console
+```
+http://localhost:8080/h2-console
+```
