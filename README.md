@@ -29,3 +29,8 @@ Execute RestApiApplication.java class
 ```
 http://localhost:8080/h2-console
 ```
+
+## SWAGGER
+```
+http://localhost:8080/swagger-ui.html
+```
