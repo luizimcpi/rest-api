@@ -7,32 +7,33 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Set;
 
 @Entity
-@Table( name = "afinidade")
+@Table( name = "score")
 @Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Afinidade {
+public class Score {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "regiao", nullable = false)
-    private String regiao;
+    @Column(name = "score_descricao", nullable = false)
+    private String scoreDescricao;
 
-    @ElementCollection
-    @Column(name = "estados", nullable = false)
-    private Set<String> estados;
+    @Column(name = "inicial", nullable = false)
+    private Integer scoreInicial;
+
+    @Column(name = "final", nullable = false)
+    private Integer scoreFinal;
+
 }

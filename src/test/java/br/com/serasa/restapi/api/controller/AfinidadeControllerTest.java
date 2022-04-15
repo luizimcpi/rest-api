@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.List;
+import java.util.Set;
 
 import static br.com.serasa.restapi.utils.AfinidadeTestUtils.AFINIDADE_VALIDA;
 import static org.hamcrest.Matchers.hasItem;
@@ -35,12 +35,12 @@ public class AfinidadeControllerTest {
 
     public static final AfinidadeRequest REQUEST_AFINIDADE_VALIDA = AfinidadeRequest.builder()
             .regiao("sudeste")
-            .estados(List.of("SP", "RJ", "MG", "ES"))
+            .estados(Set.of("SP", "RJ", "MG", "ES"))
             .build();
 
     public static final AfinidadeRequest REQUEST_AFINIDADE_SEM_REGIAO_PREENCHIDA = AfinidadeRequest.builder()
             .regiao("")
-            .estados(List.of("SP", "RJ", "MG", "ES"))
+            .estados(Set.of("SP", "RJ", "MG", "ES"))
             .build();
 
     public static final AfinidadeRequest REQUEST_AFINIDADE_SEM_ESTADOS_PREENCHIDOS = AfinidadeRequest.builder()
@@ -49,7 +49,7 @@ public class AfinidadeControllerTest {
 
     public static final AfinidadeRequest REQUEST_AFINIDADE_COM_ESTADO_VAZIO = AfinidadeRequest.builder()
             .regiao("sudeste")
-            .estados(List.of("", "RJ", "MG", "ES"))
+            .estados(Set.of("", "RJ", "MG", "ES"))
             .build();
 
 
@@ -139,7 +139,7 @@ public class AfinidadeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("status").value((HttpStatus.BAD_REQUEST.name())))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.erros").isArray())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.erros", hasSize(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.erros", hasItem("Campo: 'estados[0]' Mensagem: Item do campo 'estados' vazio, favor preencher corretamente.")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.erros", hasItem("Campo: 'estados[]' Mensagem: Item do campo 'estados' vazio, favor preencher corretamente.")));
     }
 
 }
