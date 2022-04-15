@@ -17,8 +17,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.time.LocalDateTime;
-
+import static br.com.serasa.restapi.utils.PessoaTestUtils.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -37,27 +36,9 @@ public class PessoaControllerTest {
 
     @Test
     public void deveCriarUmaPessoaComSucesso() throws Exception {
-        PessoaRequest requestDto = PessoaRequest.builder()
-                .nome("Teste")
-                .telefone("13 99999-9999")
-                .idade(28)
-                .cidade("São Paulo")
-                .estado("SP")
-                .score(1000)
-                .regiao("sudeste")
-                .build();
+        PessoaRequest requestDto = REQUEST_PESSOA_VALIDA;
 
-        Pessoa pessoa = Pessoa.builder()
-                .id(1L)
-                .nome("Teste")
-                .telefone("13 99999-9999")
-                .idade(28)
-                .cidade("São Paulo")
-                .estado("SP")
-                .score(1000)
-                .regiao("sudeste")
-                .dataInclusao(LocalDateTime.now())
-                .build();
+        Pessoa pessoa = PESSOA_VALIDA;
 
         when(pessoaService.salvar(any(Pessoa.class))).thenReturn(pessoa);
 
@@ -82,15 +63,7 @@ public class PessoaControllerTest {
 
     @Test
     public void deveRetornarBadRequestQuandoParametroNomeNaoEstiverPreenchido() throws Exception {
-        PessoaRequest requestDto = PessoaRequest.builder()
-                .nome("")
-                .telefone("13 99999-9999")
-                .idade(28)
-                .cidade("São Paulo")
-                .estado("SP")
-                .score(1000)
-                .regiao("sudeste")
-                .build();
+        PessoaRequest requestDto = REQUEST_PESSOA_SEM_NOME_PREENCHIDO;
 
         String json = new ObjectMapper().writeValueAsString(requestDto);
 
@@ -105,15 +78,7 @@ public class PessoaControllerTest {
 
     @Test
     public void deveRetornarBadRequestQuandoParametroScoreForMaiorQueMil() throws Exception {
-        PessoaRequest requestDto = PessoaRequest.builder()
-                .nome("Teste")
-                .telefone("13 99999-9999")
-                .idade(28)
-                .cidade("São Paulo")
-                .estado("SP")
-                .score(1001)
-                .regiao("sudeste")
-                .build();
+        PessoaRequest requestDto = REQUEST_PESSOA_SCORE_MAIOR_QUE_MIL;
 
         String json = new ObjectMapper().writeValueAsString(requestDto);
 
@@ -128,15 +93,7 @@ public class PessoaControllerTest {
 
     @Test
     public void deveRetornarBadRequestQuandoParametroScoreForMenorQueZero() throws Exception {
-        PessoaRequest requestDto = PessoaRequest.builder()
-                .nome("Teste")
-                .telefone("13 99999-9999")
-                .idade(28)
-                .cidade("São Paulo")
-                .estado("SP")
-                .score(-1)
-                .regiao("sudeste")
-                .build();
+        PessoaRequest requestDto = REQUEST_PESSOA_SCORE_MENOR_QUE_MIL;
 
         String json = new ObjectMapper().writeValueAsString(requestDto);
 
