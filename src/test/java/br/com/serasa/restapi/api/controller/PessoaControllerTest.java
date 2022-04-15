@@ -56,7 +56,7 @@ public class PessoaControllerTest {
                 .estado("SP")
                 .score(1000)
                 .regiao("sudeste")
-                .dataCadastro(LocalDateTime.now())
+                .dataInclusao(LocalDateTime.now())
                 .build();
 
         when(pessoaService.salvar(any(Pessoa.class))).thenReturn(pessoa);

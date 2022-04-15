@@ -50,7 +50,7 @@ public class Pessoa {
     @Column(name = "regiao")
     private String regiao;
 
-    @Column( name = "data_cadastro")
+    @Column( name = "dataInclusao")
     @CreationTimestamp
-    private LocalDateTime dataCadastro;
+    private LocalDateTime dataInclusao;
 }
