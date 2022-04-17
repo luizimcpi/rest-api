@@ -1,13 +1,9 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.AfinidadeRequest;
-import br.com.serasa.restapi.api.dto.PessoaRequest;
+import br.com.serasa.restapi.api.dto.request.AfinidadeRequest;
 import br.com.serasa.restapi.api.mapper.AfinidadeMapper;
-import br.com.serasa.restapi.api.mapper.PessoaMapper;
 import br.com.serasa.restapi.persistence.entity.Afinidade;
-import br.com.serasa.restapi.persistence.entity.Pessoa;
 import br.com.serasa.restapi.service.AfinidadeService;
-import br.com.serasa.restapi.service.PessoaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

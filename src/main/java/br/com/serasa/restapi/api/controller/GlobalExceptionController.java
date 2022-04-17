@@ -1,6 +1,8 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.ValidacaoCamposErroResponse;
+import br.com.serasa.restapi.api.dto.request.ValidacaoCamposErroResponse;
+import br.com.serasa.restapi.exception.NoContentException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -35,7 +38,14 @@ public class GlobalExceptionController {
         response.setErros(validationErrors);
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-
     }
+
+    @ExceptionHandler(NoContentException.class)
+    public ResponseEntity handleNoContentException(NoContentException e){
+        log.warn("No content message: {}", e.getMessage());
+        return ResponseEntity.noContent().build();
+    }
+
+
 }
 

@@ -1,11 +1,11 @@
-package br.com.serasa.restapi.api.dto;
+package br.com.serasa.restapi.api.dto.request;
 
+import br.com.serasa.restapi.api.dto.enums.Estado;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.util.Set;
 
@@ -19,5 +19,5 @@ public class AfinidadeRequest {
     private String regiao;
 
     @NotEmpty(message = "Favor preencher/enviar o campo estados na request")
-    private Set<@NotBlank(message = "Item do campo 'estados' vazio, favor preencher corretamente.") String> estados;
+    private Set<Estado> estados;
 }

@@ -1,6 +1,6 @@
 package br.com.serasa.restapi.utils;
 
-import br.com.serasa.restapi.api.dto.PessoaRequest;
+import br.com.serasa.restapi.api.dto.request.PessoaRequest;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
 
 import java.time.LocalDateTime;

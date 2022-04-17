@@ -1,15 +1,17 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.PessoaRequest;
+import br.com.serasa.restapi.api.dto.request.PessoaRequest;
+import br.com.serasa.restapi.api.dto.response.PessoaResponse;
 import br.com.serasa.restapi.api.mapper.PessoaMapper;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
-import br.com.serasa.restapi.persistence.repository.PessoaRepository;
 import br.com.serasa.restapi.service.PessoaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +38,19 @@ public class PessoaController {
         log.info("Pessoa cadastrada com sucesso no sistema: {}", pessoaDb);
 
         return new ResponseEntity(pessoaDb, HttpStatus.CREATED);
+
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity buscarPorId(@PathVariable("id") Long id){
+
+        log.info("Iniciando busca de pessoa no sistema com id: {}", id);
+
+        PessoaResponse pessoaResponse = pessoaService.buscarPorId(id);
+
+        log.info("Pessoa com id {} encontrada com sucesso no sistema", id);
+
+        return new ResponseEntity(pessoaResponse, HttpStatus.OK);
 
     }
 }

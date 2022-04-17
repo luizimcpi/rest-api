@@ -1,6 +1,6 @@
 package br.com.serasa.restapi.api.mapper;
 
-import br.com.serasa.restapi.api.dto.ScoreRequest;
+import br.com.serasa.restapi.api.dto.request.ScoreRequest;
 import br.com.serasa.restapi.persistence.entity.Score;
 
 public final class ScoreMapper {

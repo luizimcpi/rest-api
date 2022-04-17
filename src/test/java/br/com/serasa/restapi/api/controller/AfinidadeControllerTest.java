@@ -1,6 +1,7 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.AfinidadeRequest;
+import br.com.serasa.restapi.api.dto.request.AfinidadeRequest;
+import br.com.serasa.restapi.api.dto.enums.Estado;
 import br.com.serasa.restapi.persistence.entity.Afinidade;
 import br.com.serasa.restapi.service.AfinidadeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -35,22 +36,22 @@ public class AfinidadeControllerTest {
 
     public static final AfinidadeRequest REQUEST_AFINIDADE_VALIDA = AfinidadeRequest.builder()
             .regiao("sudeste")
-            .estados(Set.of("SP", "RJ", "MG", "ES"))
+            .estados(Set.of(Estado.SP, Estado.RJ, Estado.MG, Estado.ES))
             .build();
 
     public static final AfinidadeRequest REQUEST_AFINIDADE_SEM_REGIAO_PREENCHIDA = AfinidadeRequest.builder()
             .regiao("")
-            .estados(Set.of("SP", "RJ", "MG", "ES"))
+            .estados(Set.of(Estado.SP, Estado.RJ, Estado.MG, Estado.ES))
             .build();
 
     public static final AfinidadeRequest REQUEST_AFINIDADE_SEM_ESTADOS_PREENCHIDOS = AfinidadeRequest.builder()
             .regiao("sudeste")
             .build();
 
-    public static final AfinidadeRequest REQUEST_AFINIDADE_COM_ESTADO_VAZIO = AfinidadeRequest.builder()
-            .regiao("sudeste")
-            .estados(Set.of("", "RJ", "MG", "ES"))
-            .build();
+    public static final String REQUEST_AFINIDADE_COM_ESTADO_INVALIDO = "{\n" +
+            "    \"regiao\": \"sudeste\",\n" +
+            "    \"estados\": [\"SP\", \"MM\"]\n" +
+            "}";
 
 
     @Autowired
@@ -124,22 +125,15 @@ public class AfinidadeControllerTest {
     }
 
     @Test
-    public void deveRetornarErroQuandPreencherEstadosComItemEmBrancoNaRequestDeAfinidade() throws Exception {
-
-        String json = new ObjectMapper().writeValueAsString(REQUEST_AFINIDADE_COM_ESTADO_VAZIO);
+    public void deveRetornarErroQuandPreencherEstadosComItemInvalidoNaRequestDeAfinidade() throws Exception {
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post(URL)
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(json);
+                .content(REQUEST_AFINIDADE_COM_ESTADO_INVALIDO);
 
         mvc.perform(request)
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("codigo").value((HttpStatus.BAD_REQUEST.value())))
-                .andExpect(MockMvcResultMatchers.jsonPath("status").value((HttpStatus.BAD_REQUEST.name())))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.erros").isArray())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.erros", hasSize(1)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.erros", hasItem("Campo: 'estados[]' Mensagem: Item do campo 'estados' vazio, favor preencher corretamente.")));
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
 }

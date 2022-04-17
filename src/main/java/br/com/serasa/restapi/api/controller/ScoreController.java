@@ -1,6 +1,6 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.ScoreRequest;
+import br.com.serasa.restapi.api.dto.request.ScoreRequest;
 import br.com.serasa.restapi.api.mapper.ScoreMapper;
 import br.com.serasa.restapi.persistence.entity.Score;
 import br.com.serasa.restapi.service.ScoreService;

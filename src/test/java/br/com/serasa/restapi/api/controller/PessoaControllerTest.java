@@ -1,6 +1,6 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.PessoaRequest;
+import br.com.serasa.restapi.api.dto.request.PessoaRequest;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
 import br.com.serasa.restapi.service.PessoaService;
 import com.fasterxml.jackson.databind.ObjectMapper;

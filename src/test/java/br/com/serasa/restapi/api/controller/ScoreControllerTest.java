@@ -1,6 +1,6 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.ScoreRequest;
+import br.com.serasa.restapi.api.dto.request.ScoreRequest;
 import br.com.serasa.restapi.persistence.entity.Score;
 import br.com.serasa.restapi.service.ScoreService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static br.com.serasa.restapi.utils.ScoreTestUtils.SCORE_INSUFICIENTE;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -33,14 +34,6 @@ public class ScoreControllerTest {
             .scoreFinal(200)
             .build();
 
-    public static final Score SCORE_VALIDO = Score.builder()
-            .id(1L)
-            .scoreInicial(0)
-            .scoreFinal(200)
-            .scoreDescricao("Insuficiente")
-            .build();
-
-
     @Autowired
     MockMvc mvc;
 
@@ -51,7 +44,7 @@ public class ScoreControllerTest {
     public void deveCriarUmScoreComSucesso() throws Exception {
         ScoreRequest requestDto = REQUEST_SCORE_VALIDO;
 
-        Score score = SCORE_VALIDO;
+        Score score = SCORE_INSUFICIENTE;
 
         when(scoreService.salvar(any(Score.class))).thenReturn(score);
 
