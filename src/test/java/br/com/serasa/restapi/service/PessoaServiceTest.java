@@ -1,6 +1,7 @@
 package br.com.serasa.restapi.service;
 
 
+import br.com.serasa.restapi.api.dto.response.PessoaIdResponse;
 import br.com.serasa.restapi.api.dto.response.PessoaResponse;
 import br.com.serasa.restapi.exception.NoContentException;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
@@ -71,7 +72,7 @@ public class PessoaServiceTest {
         when(scoreService.buscaDescricaoPeloScore(any())).thenReturn(Optional.of("Recomendável"));
         when(afinidadeService.findEstadosPorRegiao(anyString())).thenReturn(estados);
 
-        PessoaResponse response = service.buscarPorId(1L);
+        PessoaIdResponse response = service.buscarPorId(1L);
 
         Assertions.assertAll(
                 () -> assertNotNull(response),
@@ -91,7 +92,7 @@ public class PessoaServiceTest {
         when(scoreService.buscaDescricaoPeloScore(any())).thenReturn(Optional.empty());
         when(afinidadeService.findEstadosPorRegiao(anyString())).thenReturn(estados);
 
-        PessoaResponse response = service.buscarPorId(1L);
+        PessoaIdResponse response = service.buscarPorId(1L);
 
         Assertions.assertAll(
                 () -> assertNotNull(response),

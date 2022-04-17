@@ -1,5 +1,6 @@
 package br.com.serasa.restapi.service;
 
+import br.com.serasa.restapi.api.dto.response.PessoaIdResponse;
 import br.com.serasa.restapi.api.dto.response.PessoaResponse;
 import br.com.serasa.restapi.exception.NoContentException;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +29,7 @@ public class PessoaService {
     }
 
     @Transactional
-    public PessoaResponse buscarPorId(Long id){
+    public PessoaIdResponse buscarPorId(Long id){
         log.info("Buscando pessoa no sistema com id: {}", id);
         var pessoa = pessoaRepository.findById(id)
                 .orElseThrow(() -> new NoContentException("Pessoa não encotrada com id informado!"));
@@ -35,7 +37,7 @@ public class PessoaService {
         var optionalScoreDescricao = scoreService.buscaDescricaoPeloScore(pessoa.getScore());
         var estados = afinidadeService.findEstadosPorRegiao(pessoa.getRegiao());
 
-        return PessoaResponse.builder()
+        return PessoaIdResponse.builder()
                 .nome(pessoa.getNome())
                 .telefone(pessoa.getTelefone())
                 .idade(pessoa.getIdade())
@@ -43,5 +45,6 @@ public class PessoaService {
                 .estados(estados)
                 .build();
     }
+
 
 }

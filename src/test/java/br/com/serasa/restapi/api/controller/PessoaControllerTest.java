@@ -1,6 +1,7 @@
 package br.com.serasa.restapi.api.controller;
 
 import br.com.serasa.restapi.api.dto.request.PessoaRequest;
+import br.com.serasa.restapi.api.dto.response.PessoaIdResponse;
 import br.com.serasa.restapi.api.dto.response.PessoaResponse;
 import br.com.serasa.restapi.exception.NoContentException;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
@@ -112,7 +113,7 @@ public class PessoaControllerTest {
     @Test
     public void deveRetornarUmaPessoaPorIdComSucesso() throws Exception {
 
-        PessoaResponse pessoaResponse = PessoaResponse.builder()
+        PessoaIdResponse pessoaIdResponse = PessoaIdResponse.builder()
                 .nome("Fulano")
                 .idade(20)
                 .telefone("99 99999-9999")
@@ -120,7 +121,7 @@ public class PessoaControllerTest {
                 .build();
 
 
-        when(pessoaService.buscarPorId(anyLong())).thenReturn(pessoaResponse);
+        when(pessoaService.buscarPorId(anyLong())).thenReturn(pessoaIdResponse);
 
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URL+"/1")
                 .accept(MediaType.APPLICATION_JSON)
@@ -128,10 +129,10 @@ public class PessoaControllerTest {
 
         mvc.perform(request)
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("nome").value(pessoaResponse.getNome()))
-                .andExpect(MockMvcResultMatchers.jsonPath("telefone").value(pessoaResponse.getTelefone()))
-                .andExpect(MockMvcResultMatchers.jsonPath("idade").value(pessoaResponse.getIdade()))
-                .andExpect(MockMvcResultMatchers.jsonPath("scoreDescricao").value(pessoaResponse.getScoreDescricao()));
+                .andExpect(MockMvcResultMatchers.jsonPath("nome").value(pessoaIdResponse.getNome()))
+                .andExpect(MockMvcResultMatchers.jsonPath("telefone").value(pessoaIdResponse.getTelefone()))
+                .andExpect(MockMvcResultMatchers.jsonPath("idade").value(pessoaIdResponse.getIdade()))
+                .andExpect(MockMvcResultMatchers.jsonPath("scoreDescricao").value(pessoaIdResponse.getScoreDescricao()));
     }
 
     @Test

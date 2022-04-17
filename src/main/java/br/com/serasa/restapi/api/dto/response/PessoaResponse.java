@@ -1,19 +1,18 @@
 package br.com.serasa.restapi.api.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.List;
 
-@Data
-@Builder
+@Getter
+@AllArgsConstructor
 @ToString
 public class PessoaResponse {
 
-    private String nome;
-    private String telefone;
-    private Integer idade;
-    private String scoreDescricao;
-    private List<String> estados;
+    public final String scoreDescricao;
+    private final List<String> estados;
 }
