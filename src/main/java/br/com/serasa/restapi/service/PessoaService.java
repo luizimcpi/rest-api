@@ -18,6 +18,7 @@ public class PessoaService {
     public static final String DESCRICAO_SCORE_VAZIA = "";
     private final PessoaRepository pessoaRepository;
     private final ScoreService scoreService;
+    private final AfinidadeService afinidadeService;
 
     @Transactional
     public Pessoa salvar(Pessoa pessoa) {
@@ -25,18 +26,21 @@ public class PessoaService {
         return pessoaRepository.save(pessoa);
     }
 
+    @Transactional
     public PessoaResponse buscarPorId(Long id){
         log.info("Buscando pessoa no sistema com id: {}", id);
         var pessoa = pessoaRepository.findById(id)
                 .orElseThrow(() -> new NoContentException("Pessoa não encotrada com id informado!"));
 
         var optionalScoreDescricao = scoreService.buscaDescricaoPeloScore(pessoa.getScore());
+        var estados = afinidadeService.findEstadosPorRegiao(pessoa.getRegiao());
 
         return PessoaResponse.builder()
                 .nome(pessoa.getNome())
                 .telefone(pessoa.getTelefone())
                 .idade(pessoa.getIdade())
                 .scoreDescricao(optionalScoreDescricao.isPresent() ? optionalScoreDescricao.get() : DESCRICAO_SCORE_VAZIA)
+                .estados(estados)
                 .build();
     }
 

@@ -13,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static br.com.serasa.restapi.utils.PessoaTestUtils.PESSOA_VALIDA;
@@ -21,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,6 +36,9 @@ public class PessoaServiceTest {
 
     @Mock
     ScoreService scoreService;
+
+    @Mock
+    AfinidadeService afinidadeService;
 
     @Test
     public void deveSalvarUmaPessoaComSucessoQuandoParametrosValidos(){
@@ -60,8 +65,11 @@ public class PessoaServiceTest {
     @Test
     public void deveBuscarUmaPessoaPorIdComSucessoQuandoParametroValido(){
 
+        var estados = List.of("SP", "RJ", "MG", "ES");
+
         when(repository.findById(anyLong())).thenReturn(Optional.of(PESSOA_VALIDA));
         when(scoreService.buscaDescricaoPeloScore(any())).thenReturn(Optional.of("Recomendável"));
+        when(afinidadeService.findEstadosPorRegiao(anyString())).thenReturn(estados);
 
         PessoaResponse response = service.buscarPorId(1L);
 
@@ -70,15 +78,18 @@ public class PessoaServiceTest {
                 () -> assertEquals("Teste", response.getNome()),
                 () -> assertEquals("13 99999-9999", response.getTelefone()),
                 () -> assertEquals(28, response.getIdade()),
-                () -> assertEquals("Recomendável", response.getScoreDescricao())
+                () -> assertEquals("Recomendável", response.getScoreDescricao()),
+                () -> assertEquals(estados.size(), response.getEstados().size())
         );
     }
 
     @Test
     public void deveBuscarUmaPessoaPorIdComSucessoQuandoParametroValidoEScoreEmBranco(){
+        var estados = List.of("SP", "RJ", "MG", "ES");
 
         when(repository.findById(anyLong())).thenReturn(Optional.of(PESSOA_VALIDA));
         when(scoreService.buscaDescricaoPeloScore(any())).thenReturn(Optional.empty());
+        when(afinidadeService.findEstadosPorRegiao(anyString())).thenReturn(estados);
 
         PessoaResponse response = service.buscarPorId(1L);
 
@@ -87,7 +98,8 @@ public class PessoaServiceTest {
                 () -> assertEquals("Teste", response.getNome()),
                 () -> assertEquals("13 99999-9999", response.getTelefone()),
                 () -> assertEquals(28, response.getIdade()),
-                () -> assertEquals("", response.getScoreDescricao())
+                () -> assertEquals("", response.getScoreDescricao()),
+                () -> assertEquals(estados.size(), response.getEstados().size())
         );
     }
 
