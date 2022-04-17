@@ -1,6 +1,8 @@
 package br.com.serasa.restapi.api.controller;
 
 import br.com.serasa.restapi.api.dto.request.PessoaRequest;
+import br.com.serasa.restapi.api.dto.response.PessoaResponse;
+import br.com.serasa.restapi.exception.NoContentException;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
 import br.com.serasa.restapi.service.PessoaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +21,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static br.com.serasa.restapi.utils.PessoaTestUtils.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -106,4 +109,41 @@ public class PessoaControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
+    @Test
+    public void deveRetornarUmaPessoaPorIdComSucesso() throws Exception {
+
+        PessoaResponse pessoaResponse = PessoaResponse.builder()
+                .nome("Fulano")
+                .idade(20)
+                .telefone("99 99999-9999")
+                .scoreDescricao("Insuficiente")
+                .build();
+
+
+        when(pessoaService.buscarPorId(anyLong())).thenReturn(pessoaResponse);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URL+"/1")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mvc.perform(request)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("nome").value(pessoaResponse.getNome()))
+                .andExpect(MockMvcResultMatchers.jsonPath("telefone").value(pessoaResponse.getTelefone()))
+                .andExpect(MockMvcResultMatchers.jsonPath("idade").value(pessoaResponse.getIdade()))
+                .andExpect(MockMvcResultMatchers.jsonPath("scoreDescricao").value(pessoaResponse.getScoreDescricao()));
+    }
+
+    @Test
+    public void deveRetornarErroQuandoBuscarUmaPessoaPorIdComIdInvalido() throws Exception {
+
+        when(pessoaService.buscarPorId(anyLong())).thenThrow(NoContentException.class);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.get(URL+"/1")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        mvc.perform(request)
+                .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
 }
