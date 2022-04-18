@@ -11,14 +11,12 @@ import java.util.List;
 @ToString
 public class PessoaIdResponse extends PessoaResponse {
 
-    private final String nome;
     private final String telefone;
     private final Integer idade;
 
     @Builder
     public PessoaIdResponse(String scoreDescricao, List<String> estados, String nome, String telefone, Integer idade) {
-        super(scoreDescricao, estados);
-        this.nome = nome;
+        super(nome, scoreDescricao, estados);
         this.telefone = telefone;
         this.idade = idade;
     }

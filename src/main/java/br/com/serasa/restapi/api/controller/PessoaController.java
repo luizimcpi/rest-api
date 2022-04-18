@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.net.URI;
 
 @RestController
 @RequestMapping("/pessoa")
@@ -33,11 +34,11 @@ public class PessoaController {
 
         log.info("Iniciando cadastro de nova pessoa no sistema com request: {}", request);
 
-        Pessoa pessoaDb = pessoaService.salvar(PessoaMapper.toPersistenceModel(request));
+        pessoaService.salvar(PessoaMapper.toPersistenceModel(request));
 
-        log.info("Pessoa cadastrada com sucesso no sistema: {}", pessoaDb);
+        log.info("Pessoa cadastrada com sucesso no sistema");
 
-        return new ResponseEntity(pessoaDb, HttpStatus.CREATED);
+        return ResponseEntity.created(URI.create("/pessoa")).build();
 
     }
 
