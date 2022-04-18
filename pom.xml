@@ -113,9 +113,10 @@
 						</goals>
 						<configuration>
 							<excludes>
-								<exclude>br/com/serasa/restapi/persistence/**</exclude>
-								<exclude>br/com/serasa/restapi/api/dto/**</exclude>
-								<exclude>br/com/serasa/restapi/config/**</exclude>
+								<exclude>**/*RestApiApplication*</exclude>
+								<exclude>**/persistence/**</exclude>
+								<exclude>**/api/dto/**</exclude>
+								<exclude>**/config/**</exclude>
 							</excludes>
 							<rules>
 								<rule>
@@ -124,7 +125,7 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>0.30</minimum>
+											<minimum>80%</minimum>
 										</limit>
 									</limits>
 								</rule>
