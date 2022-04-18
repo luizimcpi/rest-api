@@ -1,6 +1,7 @@
 package br.com.serasa.restapi.api.controller;
 
 import br.com.serasa.restapi.api.dto.request.ValidacaoCamposErroResponse;
+import br.com.serasa.restapi.exception.ConflictException;
 import br.com.serasa.restapi.exception.NoContentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -44,6 +45,12 @@ public class GlobalExceptionController {
     public ResponseEntity handleNoContentException(NoContentException e){
         log.warn("No content message: {}", e.getMessage());
         return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity handleConflictException(ConflictException e){
+        log.warn("Conflict message: {}", e.getMessage());
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
     }
 
 
