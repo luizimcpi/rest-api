@@ -1,10 +1,6 @@
 package br.com.serasa.restapi.utils;
 
-import br.com.serasa.restapi.api.dto.request.PessoaRequest;
-import br.com.serasa.restapi.persistence.entity.Pessoa;
 import br.com.serasa.restapi.persistence.entity.Score;
-
-import java.time.LocalDateTime;
 
 public final class ScoreTestUtils {
 

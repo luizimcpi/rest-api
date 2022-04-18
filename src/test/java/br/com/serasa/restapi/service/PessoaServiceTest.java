@@ -2,10 +2,8 @@ package br.com.serasa.restapi.service;
 
 
 import br.com.serasa.restapi.api.dto.response.PessoaIdResponse;
-import br.com.serasa.restapi.api.dto.response.PessoaResponse;
 import br.com.serasa.restapi.exception.NoContentException;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
-import br.com.serasa.restapi.persistence.entity.Score;
 import br.com.serasa.restapi.persistence.repository.PessoaRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -112,6 +111,38 @@ public class PessoaServiceTest {
         NoContentException exception = assertThrows(NoContentException.class, () -> service.buscarPorId(1L));
 
         assertEquals("Pessoa não encotrada com id informado!", exception.getMessage());
+    }
+
+    @Test
+    public void deveBuscarPessoasComSucesso(){
+
+        var estados = List.of("SP", "RJ", "MG", "ES");
+
+        when(repository.findAll()).thenReturn(List.of(PESSOA_VALIDA));
+        when(scoreService.buscaDescricaoPeloScore(any())).thenReturn(Optional.of("Recomendável"));
+        when(afinidadeService.findEstadosPorRegiao(anyString())).thenReturn(estados);
+
+        var response = service.buscarTodas();
+
+        Assertions.assertAll(
+                () -> assertNotNull(response),
+                () -> assertEquals(1, response.size()),
+                () -> assertEquals("Teste", response.get(0).getNome()),
+                () -> assertEquals("São Paulo", response.get(0).getCidade()),
+                () -> assertEquals("SP", response.get(0).getEstado()),
+                () -> assertEquals(estados.size(), response.get(0).getEstados().size()),
+                () -> assertEquals("Recomendável", response.get(0).getScoreDescricao())
+        );
+    }
+
+    @Test
+    public void deveLancarErroQuandoNaoExistirPessoasCadastradas(){
+
+        when(repository.findAll()).thenReturn(new ArrayList<>());
+
+        NoContentException exception = assertThrows(NoContentException.class, () -> service.buscarTodas());
+
+        assertEquals("Não existem pessoas cadastradas", exception.getMessage());
     }
 
 }

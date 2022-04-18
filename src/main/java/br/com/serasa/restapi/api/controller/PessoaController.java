@@ -2,6 +2,7 @@ package br.com.serasa.restapi.api.controller;
 
 import br.com.serasa.restapi.api.dto.request.PessoaRequest;
 import br.com.serasa.restapi.api.dto.response.PessoaResponse;
+import br.com.serasa.restapi.api.dto.response.PessoasResponse;
 import br.com.serasa.restapi.api.mapper.PessoaMapper;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
 import br.com.serasa.restapi.service.PessoaService;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/pessoa")
@@ -52,6 +54,19 @@ public class PessoaController {
         log.info("Pessoa com id {} encontrada com sucesso no sistema", id);
 
         return new ResponseEntity(pessoaResponse, HttpStatus.OK);
+
+    }
+
+    @GetMapping
+    public ResponseEntity buscarPessoas(){
+
+        log.info("Iniciando busca de pessoas no sistema");
+
+        List<PessoasResponse> pessoasResponse = pessoaService.buscarTodas();
+
+        log.info("Pessoas encontradas com sucesso no sistema");
+
+        return new ResponseEntity(pessoasResponse, HttpStatus.OK);
 
     }
 }

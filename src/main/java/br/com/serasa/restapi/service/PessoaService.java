@@ -1,7 +1,8 @@
 package br.com.serasa.restapi.service;
 
 import br.com.serasa.restapi.api.dto.response.PessoaIdResponse;
-import br.com.serasa.restapi.api.dto.response.PessoaResponse;
+import br.com.serasa.restapi.api.dto.response.PessoasResponse;
+import br.com.serasa.restapi.api.mapper.PessoaMapper;
 import br.com.serasa.restapi.exception.NoContentException;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
 import br.com.serasa.restapi.persistence.repository.PessoaRepository;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,7 +19,6 @@ import java.util.List;
 @Slf4j
 public class PessoaService {
 
-    public static final String DESCRICAO_SCORE_VAZIA = "";
     private final PessoaRepository pessoaRepository;
     private final ScoreService scoreService;
     private final AfinidadeService afinidadeService;
@@ -37,13 +38,23 @@ public class PessoaService {
         var optionalScoreDescricao = scoreService.buscaDescricaoPeloScore(pessoa.getScore());
         var estados = afinidadeService.findEstadosPorRegiao(pessoa.getRegiao());
 
-        return PessoaIdResponse.builder()
-                .nome(pessoa.getNome())
-                .telefone(pessoa.getTelefone())
-                .idade(pessoa.getIdade())
-                .scoreDescricao(optionalScoreDescricao.isPresent() ? optionalScoreDescricao.get() : DESCRICAO_SCORE_VAZIA)
-                .estados(estados)
-                .build();
+        return PessoaMapper.toPessoaIdResponse(pessoa, optionalScoreDescricao, estados);
+    }
+
+    @Transactional
+    public List<PessoasResponse> buscarTodas(){
+        var pessoas = pessoaRepository.findAll();
+        if(pessoas.isEmpty()) throw new NoContentException("Não existem pessoas cadastradas");
+
+        List<PessoasResponse> pessoasResponse = new ArrayList<>();
+        for(Pessoa pessoa : pessoas){
+            var optionalScoreDescricao = scoreService.buscaDescricaoPeloScore(pessoa.getScore());
+            var estados = afinidadeService.findEstadosPorRegiao(pessoa.getRegiao());
+            var pessoaResponse = PessoaMapper.toPessoasResponse(pessoa, optionalScoreDescricao, estados);
+            pessoasResponse.add(pessoaResponse);
+        }
+
+        return pessoasResponse;
     }
 
 
