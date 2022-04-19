@@ -35,3 +35,16 @@ http://localhost:8080/swagger-ui.html
 512 bits key generator for encryption
 https://www.allkeysgenerator.com/
 ```
+
+#### Instructions
+```
+import postman collection located at postman folder in this project
+
+Create an user using '/usuario' endpoint
+
+Do login using '/login' endpoint
+
+Use 'Authorization' header content token that returned at success login and
+pass to any another request.
+
+```
