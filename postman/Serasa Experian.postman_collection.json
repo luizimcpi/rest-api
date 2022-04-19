@@ -1,0 +1,310 @@
+{
+	"info": {
+		"_postman_id": "31fdfe36-d38a-467f-a632-dfa40c7343a6",
+		"name": "Serasa Experian",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Criar Pessoa",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSIsImV4cCI6MTY1MDM4Mjk3OH0.617TbUHfSeCE40bU8IJowFsGu9jqSxyVDn3M8NC_JWK167tbz9k6148k1acOhsyDO4A7e-gGwZzdr_pHARKS0A",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Fulano de Tal\",\r\n    \"telefone\": \"99 99999-9999\",\r\n    \"idade\": 99,\r\n    \"cidade\": \"São Paulo\",\r\n    \"estado\": \"SP\",\r\n    \"score\": 1000,\r\n    \"regiao\": \"sudeste\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/pessoa",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pessoa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"teste\",\r\n    \"password\": \"teste1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/usuario",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"teste\",\r\n    \"password\": \"teste1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pessoa By Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSIsImV4cCI6MTY1MDM4MjIwMX0._3TQWtVNSa9SV5gFutR1NpgT1iSStI2cLzDxckAUCyvGL6e8cF_ZY4FkDCiIDWkMO02ZB_0x4ubVdyXal_ooaQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/pessoa/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pessoa",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Pessoas",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSIsImV4cCI6MTY1MDM4MjIwMX0._3TQWtVNSa9SV5gFutR1NpgT1iSStI2cLzDxckAUCyvGL6e8cF_ZY4FkDCiIDWkMO02ZB_0x4ubVdyXal_ooaQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/pessoa",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pessoa"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Score Insuficiente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSIsImV4cCI6MTY1MDM4MjIwMX0._3TQWtVNSa9SV5gFutR1NpgT1iSStI2cLzDxckAUCyvGL6e8cF_ZY4FkDCiIDWkMO02ZB_0x4ubVdyXal_ooaQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scoreDescricao\": \"Insuficiente\",\r\n    \"inicial\": 0,\r\n    \"final\": 200\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/score",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Score Inaceitável",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSIsImV4cCI6MTY1MDM4MjIwMX0._3TQWtVNSa9SV5gFutR1NpgT1iSStI2cLzDxckAUCyvGL6e8cF_ZY4FkDCiIDWkMO02ZB_0x4ubVdyXal_ooaQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scoreDescricao\": \"Inaceitável\",\r\n    \"inicial\": 201,\r\n    \"final\": 500\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/score",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Score Aceitável",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSIsImV4cCI6MTY1MDM4MjIwMX0._3TQWtVNSa9SV5gFutR1NpgT1iSStI2cLzDxckAUCyvGL6e8cF_ZY4FkDCiIDWkMO02ZB_0x4ubVdyXal_ooaQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scoreDescricao\": \"Aceitável\",\r\n    \"inicial\": 501,\r\n    \"final\": 700\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/score",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Score Recomendável",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSIsImV4cCI6MTY1MDM4MjIwMX0._3TQWtVNSa9SV5gFutR1NpgT1iSStI2cLzDxckAUCyvGL6e8cF_ZY4FkDCiIDWkMO02ZB_0x4ubVdyXal_ooaQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"scoreDescricao\": \"Recomendável\",\r\n    \"inicial\": 701,\r\n    \"final\": 1000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/score",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"score"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar Afinidade",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0ZSIsImV4cCI6MTY1MDM4MjIwMX0._3TQWtVNSa9SV5gFutR1NpgT1iSStI2cLzDxckAUCyvGL6e8cF_ZY4FkDCiIDWkMO02ZB_0x4ubVdyXal_ooaQ",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"regiao\": \"sudeste\",\r\n    \"estados\": [\"SP\", \"MG\", \"RJ\", \"ES\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/afinidade",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"afinidade"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

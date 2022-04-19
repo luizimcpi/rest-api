@@ -1,4 +1,4 @@
-package br.com.serasa.restapi.api.dto.request;
+package br.com.serasa.restapi.api.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

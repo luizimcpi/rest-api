@@ -1,23 +1,27 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.request.AfinidadeRequest;
 import br.com.serasa.restapi.api.dto.enums.Estado;
+import br.com.serasa.restapi.api.dto.request.AfinidadeRequest;
 import br.com.serasa.restapi.persistence.entity.Afinidade;
 import br.com.serasa.restapi.service.AfinidadeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.Set;
 
@@ -26,10 +30,11 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest( controllers = AfinidadeController.class)
-@AutoConfigureMockMvc
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class AfinidadeControllerTest {
 
     private static final String URL = "/afinidade";
@@ -53,13 +58,23 @@ public class AfinidadeControllerTest {
             "    \"estados\": [\"SP\", \"MM\"]\n" +
             "}";
 
-
     @Autowired
-    MockMvc mvc;
+    private WebApplicationContext context;
+
+    private MockMvc mvc;
 
     @MockBean
     AfinidadeService afinidadeService;
 
+    @BeforeAll
+    public void setup() {
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .apply(springSecurity())
+                .build();
+    }
+
+    @WithMockUser("spring")
     @Test
     public void deveCriarAfinidadeComSucesso() throws Exception {
 
@@ -86,6 +101,7 @@ public class AfinidadeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.estados", hasItem("ES")));
     }
 
+    @WithMockUser("spring")
     @Test
     public void deveRetornarErroQuandoNaoPreencherRegiaoNaRequestDeAfinidade() throws Exception {
 
@@ -105,6 +121,7 @@ public class AfinidadeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.erros", hasItem("Campo: 'regiao' Mensagem: Favor preencher/enviar o campo regiao na request")));
     }
 
+    @WithMockUser("spring")
     @Test
     public void deveRetornarErroQuandoNaoPreencherEstadosNaRequestDeAfinidade() throws Exception {
 
@@ -124,6 +141,7 @@ public class AfinidadeControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.erros", hasItem("Campo: 'estados' Mensagem: Favor preencher/enviar o campo estados na request")));
     }
 
+    @WithMockUser("spring")
     @Test
     public void deveRetornarErroQuandPreencherEstadosComItemInvalidoNaRequestDeAfinidade() throws Exception {
 
