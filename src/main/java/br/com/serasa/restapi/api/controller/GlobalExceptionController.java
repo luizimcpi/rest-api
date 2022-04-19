@@ -1,6 +1,7 @@
 package br.com.serasa.restapi.api.controller;
 
-import br.com.serasa.restapi.api.dto.request.ValidacaoCamposErroResponse;
+import br.com.serasa.restapi.api.dto.response.ErrorResponse;
+import br.com.serasa.restapi.api.dto.response.ValidacaoCamposErroResponse;
 import br.com.serasa.restapi.exception.ConflictException;
 import br.com.serasa.restapi.exception.NoContentException;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class GlobalExceptionController {
     @ExceptionHandler(ConflictException.class)
     public ResponseEntity handleConflictException(ConflictException e){
         log.warn("Conflict message: {}", e.getMessage());
-        return new ResponseEntity<>(HttpStatus.CONFLICT);
+        return new ResponseEntity<>(ErrorResponse.builder().mensagem(e.getMessage()).build() , HttpStatus.CONFLICT);
     }
 
 

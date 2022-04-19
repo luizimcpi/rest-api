@@ -2,7 +2,6 @@ package br.com.serasa.restapi.api.controller;
 
 import br.com.serasa.restapi.api.dto.request.PessoaRequest;
 import br.com.serasa.restapi.api.dto.response.PessoaIdResponse;
-import br.com.serasa.restapi.api.dto.response.PessoaResponse;
 import br.com.serasa.restapi.api.dto.response.PessoasResponse;
 import br.com.serasa.restapi.exception.NoContentException;
 import br.com.serasa.restapi.persistence.entity.Pessoa;
@@ -15,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -23,8 +23,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
-import static br.com.serasa.restapi.utils.PessoaTestUtils.*;
-import static org.hamcrest.Matchers.hasItem;
+import static br.com.serasa.restapi.utils.PessoaTestUtils.PESSOA_VALIDA;
+import static br.com.serasa.restapi.utils.PessoaTestUtils.REQUEST_PESSOA_SCORE_MAIOR_QUE_MIL;
+import static br.com.serasa.restapi.utils.PessoaTestUtils.REQUEST_PESSOA_SCORE_MENOR_QUE_MIL;
+import static br.com.serasa.restapi.utils.PessoaTestUtils.REQUEST_PESSOA_SEM_NOME_PREENCHIDO;
+import static br.com.serasa.restapi.utils.PessoaTestUtils.REQUEST_PESSOA_VALIDA;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -33,9 +36,11 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @WebMvcTest( controllers = PessoaController.class)
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class PessoaControllerTest {
 
     private static final String URL = "/pessoa";
+    private String token = "";
 
     @Autowired
     MockMvc mvc;

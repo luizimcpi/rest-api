@@ -25,7 +25,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @PostMapping
-    public ResponseEntity regitraNovoUsuario(@RequestBody @Valid UsuarioRequest usuarioRequest) {
+    public ResponseEntity registraNovoUsuario(@RequestBody @Valid UsuarioRequest usuarioRequest) {
         log.info("Iniciando cadastro de novo usuario no sistema com username: {}", usuarioRequest.getUsername());
 
         usuarioService.salvar(UsuarioMapper.toPersistenceModel(usuarioRequest));

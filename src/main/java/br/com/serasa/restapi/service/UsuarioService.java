@@ -5,7 +5,7 @@ import br.com.serasa.restapi.persistence.entity.Usuario;
 import br.com.serasa.restapi.persistence.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
 
     public void salvar(final Usuario usuario){
@@ -26,7 +26,7 @@ public class UsuarioService {
 
         Usuario usuarioComSenhaCriptografada = Usuario.builder()
                 .username(usuario.getUsername())
-                .password(bCryptPasswordEncoder.encode(usuario.getPassword()))
+                .password(passwordEncoder.encode(usuario.getPassword()))
                 .build();
 
         usuarioRepository.save(usuarioComSenhaCriptografada);
